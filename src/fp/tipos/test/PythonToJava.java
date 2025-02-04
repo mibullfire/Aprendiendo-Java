@@ -1,5 +1,6 @@
 package fp.tipos.test;
-
+import java.util.ArrayList;
+import java.util.List;
 /*
  * En este pequeño sript hay funciones muy básicas que se hacer de sobra en Python,
  * y las estoy traspasando a Java para practicar. Funciones:
@@ -7,7 +8,7 @@ package fp.tipos.test;
  * - esPar
  * - esPrimo
  * - factorial
- * - reverse
+ * - Fibonacci
  */
 
 public class PythonToJava {
@@ -52,6 +53,21 @@ public class PythonToJava {
         return resultado;
     }
 
+    // Fibonacci
+    public static List<Integer> fibonacci(int n){
+        List<Integer> resultado = new ArrayList<>();
+        Integer n1 = 0;
+        Integer n2 = 1;
+        Integer nuevo = 0;
+        resultado.add(n1); resultado.add(n2);
+        for (Integer i=n1; i < n; i++){
+            nuevo = n1 + n2; 
+            n1 = n2; n2 = nuevo;
+            resultado.add(nuevo);
+        }
+        return resultado;
+    }
+
     public static void main(String [] args){
 
         // Prueba de código para sumar dos números enteros 'a' y 'b'
@@ -78,6 +94,12 @@ public class PythonToJava {
         int resultadof4 = factorial(e);
         System.out.println("\nPrueba Función 4");
         System.out.println("El factorial de "+e+" es "+resultadof4);
+
+        // Prueba de código para Fibonacci
+        int valores = 10;
+        List<Integer> resultadof5 = fibonacci(valores);
+        System.out.println("\nPrueba Función 5");
+        System.out.println(resultadof5);
         
     }
 }
