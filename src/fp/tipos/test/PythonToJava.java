@@ -6,20 +6,22 @@ package fp.tipos.test;
  * - suma
  * - esPar
  * - esPrimo
+ * - factorial
+ * - reverse
  */
 
 public class PythonToJava {
+
+    // Suma de dos numeros a y b
     public static int suma(int a, int b){
         return a + b;
     }
 
+    // Comprobar si un número es par
     public static String esPar(int numero){
-        boolean resultado;
+        boolean resultado = false;
         if (numero % 2 == 0){
             resultado = true;
-        }
-        else {
-            resultado = false;
         }
         if (resultado == true) {
             return "par";
@@ -27,6 +29,8 @@ public class PythonToJava {
             return "impar";
         }
     }
+
+    // Comprobar si un número es primo
     public static boolean esPrimo(int numero){
         if (numero <= 1) {
             return false;
@@ -37,6 +41,15 @@ public class PythonToJava {
             }
         }
         return true;
+    }
+
+    // Factorial de un número
+    public static int factorial(int numero){
+        int resultado = 1;
+        for(int i = 1; i <= numero; i++){
+            resultado = resultado*i;
+        }
+        return resultado;
     }
 
     public static void main(String [] args){
@@ -59,6 +72,12 @@ public class PythonToJava {
         boolean resultadof3 = esPrimo(d);
         System.out.println("\nPrueba Función 3");
         System.out.println("¿El número " + d + " es primo? " + resultadof3);
+
+        // Prueba de código para el calculo de factorial
+        int e = 3;
+        int resultadof4 = factorial(e);
+        System.out.println("\nPrueba Función 4");
+        System.out.println("El factorial de "+e+" es "+resultadof4);
         
     }
 }
