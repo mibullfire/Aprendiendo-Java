@@ -15,25 +15,6 @@ package fp.tipos;
  * - Legibilidad: Los enums hacen que el código sea más fácil de leer y entender.
  * - Funcionalidad adicional: Los enums pueden tener métodos, constructores y campos, lo que permite agregar 
  *   funcionalidad adicional si es necesario.
- * 
- * Ejemplo de uso:
- * <pre>
- * Color color = Color.ROJO;
- * switch (color) {
- *     case ROJO:
- *         System.out.println("El color es rojo");
- *         break;
- *     case VERDE:
- *         System.out.println("El color es verde");
- *         break;
- *     case VIOLETA:
- *         System.out.println("El color es violeta");
- *         break;
- *     case MAGENTA:
- *         System.out.println("El color es magenta");
- *         break;
- * }
- * </pre>
  */
 
 public enum Color {
