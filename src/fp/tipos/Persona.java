@@ -1,6 +1,6 @@
 package fp.tipos;
 
-import java.time.LocalDate;
+// import java.time.LocalDate;
 
 /*Cosas importantes:
  * 1. El nombre de la clase siempre con su .java
@@ -10,10 +10,11 @@ import java.time.LocalDate;
  * */
 
 public class Persona {
+    /* 
     private String nombre;
     private String primerApellido;
     private String segundoApellido;
     private LocalDate fechaNacimiento;
-
+    */
     // Aquí el resto de opciones...
 }

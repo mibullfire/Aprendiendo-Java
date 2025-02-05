@@ -14,7 +14,7 @@ import java.util.List;
 public class PythonToJava {
 
     // Suma de dos numeros a y b
-    public static int suma(int a, int b){
+    public static Integer suma(Integer a, Integer b){
         return a + b;
     }
 
@@ -71,9 +71,9 @@ public class PythonToJava {
     public static void main(String [] args){
 
         // Prueba de código para sumar dos números enteros 'a' y 'b'
-        int a = 2;
-        int b = 5;
-        int resultadof1 = suma(a, b);
+        Integer a = 2;
+        Integer b = 5;
+        Integer resultadof1 = suma(a, b);
         System.out.println("\nPrueba Función 1");
         System.out.println("El resultado de " + a + "+" + b +" es " + resultadof1);
 
