@@ -38,11 +38,18 @@ public class Jugador {
 		this.altura = altura;
 		this.nacionalidad = nacionalidad;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "Jugador [nombre=" + nombre + ", nacimiento=" + nacimiento + ", altura=" + altura + ", nacionalidad="
+				+ nacionalidad + "]";
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(nacimiento, nombre);
 	}
-	@Override
+	
 	public boolean equals(Object o) {
 		boolean result = false;
 		if (o instanceof Jugador) {

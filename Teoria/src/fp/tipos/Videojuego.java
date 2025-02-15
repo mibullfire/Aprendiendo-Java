@@ -58,19 +58,7 @@ public class Videojuego {
 		}
 		return result;
 	}
-	/* Generate equals auto:
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Videojuego other = (Videojuego) obj;
-		return Objects.equals(anyo, other.anyo) && Objects.equals(nombre, other.nombre);
-	}
-	*/
+
 	@Override
 	public String toString() {
 		return "Videojuego [nombre=" + nombre + ", distribuidora=" + distribuidora + ", anyo=" + anyo

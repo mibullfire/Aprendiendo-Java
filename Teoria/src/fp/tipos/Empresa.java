@@ -1,6 +1,7 @@
 package fp.tipos;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /*
  * Class of 14/02/2025
@@ -47,5 +48,20 @@ public class Empresa {
 	public String toString() {
 		return "Empresa [nombre=" + nombre + ", CIF=" + CIF + ", empleados=" + empleados + "]";
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(fechaFundacion, nombre);
+	}
+	
+	public boolean equals(Object o) {
+		boolean result = false;
+		if (o instanceof Empresa) {
+			Empresa e = (Empresa) o;
+			result = Objects.equals(e.fechaFundacion, fechaFundacion) && Objects.equals(e.nombre, nombre);
+		}
+		return result;
+		
+	}
+	
 	
 }
