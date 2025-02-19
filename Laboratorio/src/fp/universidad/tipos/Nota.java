@@ -1,4 +1,4 @@
-package fp.tipos;
+package fp.universidad.tipos;
 
 public record Nota(Asignatura asignatura, Integer curso, Double nota, Convocatoria convocatoria, Boolean honor) {
 	
@@ -29,7 +29,7 @@ public record Nota(Asignatura asignatura, Integer curso, Double nota, Convocator
 	}
 
 	public String cursoAcademico(){
-		return curso + "-" + (curso % 100 + 1);
+		return curso + "-" + (curso % 100 + 1); // Para obtener las dos últimas cifras, obtenemos el resto de dividir entre 100
 	}
 	
 	public String toString() {

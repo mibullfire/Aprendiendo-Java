@@ -1,8 +1,8 @@
-package fp.tipos;
+package fp.universidad.tipos;
 
 public class AsignaturaFake {
 	private String nombre;
-	private String acronimo;
+	// private String acronimo;
 	private String codigo;
 	private Double creditos;
 	private TipoAsignatura tipoAsignatura;

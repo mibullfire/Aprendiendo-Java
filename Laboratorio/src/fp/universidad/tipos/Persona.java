@@ -1,4 +1,4 @@
-package fp.tipos;
+package fp.universidad.tipos;
 
 import java.time.LocalDate;
 import java.time.Period;
