@@ -2,6 +2,7 @@ package fp.universidad.tipos;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Objects;
 
 public class Persona {
 	private String dni;
@@ -58,6 +59,20 @@ public class Persona {
 		this.nacimiento = nacimiento;
 		this.mail = mail;
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(apellidos, nombre, dni);
+	}
+	
+	public boolean equals(Object o) {
+		boolean res = false;
+		if (o instanceof Persona) {
+			Persona p = (Persona) o;
+			res = Objects.equals(p.dni, dni) && Objects.equals(p.nombre, nombre) && Objects.equals(p.apellidos, apellidos);
+		}
+		return res;
+	}
+	
 	
 	
 	

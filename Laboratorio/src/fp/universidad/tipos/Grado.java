@@ -38,7 +38,7 @@ public class Grado {
 	}
 	
 	public Asignatura getAsignatura(String codigo) {
-		Asignatura result = new Asignatura(null, null, null, null, null);
+		Asignatura result = null;
 		for (Asignatura a: getTodasAsignaturas()) {
 			if (a.codigo().equals(codigo)) {
 				result = a;
@@ -46,14 +46,15 @@ public class Grado {
 		}
 		return result;
 	}
-	
 
 
 	public Double getCreditos() {
-		//TODO
-		Double delFor = 0.;
+		Double delFor = 0.0;
+		for (Asignatura a: getTodasAsignaturas()) {
+			delFor += a.creditos();
+		}
 		
-		return 0. + minimoCreditosOptativas;
+		return delFor + minimoCreditosOptativas;
 	}
 	
 	public String toString() {
