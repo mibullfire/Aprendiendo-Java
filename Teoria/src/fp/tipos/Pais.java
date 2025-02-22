@@ -2,7 +2,7 @@ package fp.tipos;
 
 import java.util.Objects;
 
-public class Pais {
+public class Pais implements Comparable<Pais> {
 	private String nombre;
 	private Long habitantes;
 	private Double extension;
@@ -77,6 +77,17 @@ public class Pais {
 		return result;
 	}
 	
+	public int compareTo(Pais p) {
+		int res;
+		if (p == null) {
+			throw new NullPointerException();
+		}
+		res = getNombre().compareTo(p.getNombre());
+		if (res == 0) {
+			res = getCapital().compareTo(p.getCapital());
+		}
+		return res;
+	}
 	
 
 }

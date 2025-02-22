@@ -7,7 +7,7 @@ import java.util.Objects;
  * Class of 14/02/2025
  */
 
-public class Empresa {
+public class Empresa implements Comparable<Empresa> {
 	private String nombre;
 	private String CIF;
 	private LocalDate fechaFundacion;
@@ -61,6 +61,15 @@ public class Empresa {
 		}
 		return result;
 		
+	}
+	
+	public int compareTo(Empresa e) {
+		int res;
+		if (e == null) {
+			throw new NullPointerException();
+		}
+		res = getCIF().compareTo(e.getCIF());
+		return res;
 	}
 	
 	

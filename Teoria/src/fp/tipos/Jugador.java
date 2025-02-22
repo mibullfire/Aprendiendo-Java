@@ -1,10 +1,11 @@
 package fp.tipos;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
-public class Jugador {
+public class Jugador implements Comparable<Jugador> {
 	private String nombre;
-	private String nacimiento;
+	private LocalDate nacimiento;
 	private Double altura;
 	private String nacionalidad;
 	public String getNombre() {
@@ -13,10 +14,11 @@ public class Jugador {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public String getNacimiento() {
+	public LocalDate getNacimiento() {
 		return nacimiento;
 	}
-	public void setNacimiento(String nacimiento) {
+	public void setNacimiento(LocalDate nacimiento) {
+		checkNacimiento(nacimiento);
 		this.nacimiento = nacimiento;
 	}
 	public Double getAltura() {
@@ -31,7 +33,7 @@ public class Jugador {
 	public void setNacionalidad(String nacionalidad) {
 		this.nacionalidad = nacionalidad;
 	}
-	public Jugador(String nombre, String nacimiento, Double altura, String nacionalidad) {
+	public Jugador(String nombre, LocalDate nacimiento, Double altura, String nacionalidad) {
 		super();
 		this.nombre = nombre;
 		this.nacimiento = nacimiento;
@@ -57,6 +59,27 @@ public class Jugador {
 			result = Objects.equals(j.nacimiento, nacimiento) && Objects.equals(j.nombre, nombre);
 		}
 		return result;
+	}
+
+	private void checkNacimiento(LocalDate fecha) {
+		if (fecha.isAfter(LocalDate.now())) {
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	public int compareTo(Jugador j) {
+		int res;
+		if (j == null) {
+			throw new NullPointerException();
+		}
+		res = getNombre().compareTo(j.getNombre());
+		if (res == 0) {
+			res = getNacimiento().compareTo(j.getNacimiento());
+			if (res == 0) {
+				res = getNacionalidad().compareTo(j.getNacionalidad());
+			}
+		}
+		return res;
 	}
 	
 	

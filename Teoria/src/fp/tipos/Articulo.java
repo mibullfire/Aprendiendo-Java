@@ -2,7 +2,7 @@ package fp.tipos;
 
 import java.util.Objects;
 
-public class Articulo {
+public class Articulo implements Comparable<Articulo> {
 	private String nombre;
 	private String referencia;
 	private Double precio;
@@ -70,6 +70,15 @@ public class Articulo {
 		this.precio = precio;
 		this.categoria = categoria;
 		this.stock = stock;
+	}
+	
+	public int compareTo(Articulo a) {
+		int res;
+		if (a == null) {
+			throw new NullPointerException();
+		}
+		res = getReferencia().compareTo(a.getReferencia());
+		return res;
 	}
 	
 	
