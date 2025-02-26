@@ -17,6 +17,29 @@ public class Grado {
 		this.minimoCreditosOptativas = minimoCreditosOptativas;
 	}
 	
+	public void anyadeAsignaturaObligatoria(Asignatura a) {
+		// Añade una asignatura si no existe previamente
+		if (!obligatorias.contains(a)) {
+			obligatorias.add(a);		
+		}
+	}
+	public void anyadeAsignaturaOptativa(Asignatura a) {
+		// Añade una asignatura si no existe previamente
+		if (!optativas.contains(a)) {
+			optativas.add(a);		
+		}
+	}
+	public void eliminaAsignaturaOptativa(Asignatura a) {
+		if (optativas.contains(a)) {
+			optativas.remove(a);
+		}
+	}
+	public void eliminaAsignaturaObligatoria(Asignatura a) {
+		if (obligatorias.contains(a)) {
+			obligatorias.remove(a);
+		}
+	}
+	
 	private Set<Asignatura> getTodasAsignaturas(){
 		Set<Asignatura> result = new HashSet<Asignatura>();
 		
@@ -42,11 +65,11 @@ public class Grado {
 		for (Asignatura a: getTodasAsignaturas()) {
 			if (a.codigo().equals(codigo)) {
 				result = a;
+				break;
 			}
 		}
 		return result;
 	}
-
 
 	public Double getCreditos() {
 		Double delFor = 0.0;

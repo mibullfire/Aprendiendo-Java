@@ -1,6 +1,6 @@
 package fp.universidad.tipos;
 
-public record Nota(Asignatura asignatura, Integer curso, Double nota, Convocatoria convocatoria, Boolean honor) {
+public record Nota(Asignatura asignatura, Integer curso, Double nota, Convocatoria convocatoria, Boolean honor) implements Comparable<Nota> {
 	
 	public Nota {
 		if (nota < 0 || nota > 10) {
@@ -34,6 +34,21 @@ public record Nota(Asignatura asignatura, Integer curso, Double nota, Convocator
 	
 	public String toString() {
 		return "(" + asignatura.codigo() + ") " + asignatura.nombre() + ", " + cursoAcademico() + ", " + convocatoria + ", " + nota + ", " + calificacion();
+	}
+	@Override
+	public int compareTo(Nota o) {
+		int res;
+		if (o == null) {
+			throw new NullPointerException();
+		}
+		res = curso().compareTo(o.curso());
+		if (res == 0) {
+			res = asignatura().compareTo(o.asignatura());
+			if (res == 0) {
+				res = convocatoria().compareTo(o.convocatoria());
+			}
+		}	
+		return res;
 	}
 	
 }

@@ -2,7 +2,7 @@ package fp.universidad.tipos;
 
 import java.util.Objects;
 
-public class Espacio {
+public class Espacio implements Comparable<Espacio> {
 	private TipoEspacio tipoEspacio;
 	private String nombre;
 	private Integer capacidad;
@@ -47,6 +47,18 @@ public class Espacio {
 		if (o instanceof Espacio) {
 			Espacio e = (Espacio) o;
 			res = Objects.equals(e.nombre, nombre) && Objects.equals(e.getPlanta(), getPlanta());
+		}
+		return res;
+	}
+	@Override
+	public int compareTo(Espacio o) {
+		int res;
+		if (o == null) {
+			throw new NullPointerException();
+		}
+		res = getPlanta().compareTo(o.getPlanta());
+		if (res == 0) {
+			res = getNombre().compareTo(o.getNombre());
 		}
 		return res;
 	}
