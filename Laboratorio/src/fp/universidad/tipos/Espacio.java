@@ -23,6 +23,7 @@ public class Espacio implements Comparable<Espacio> {
 		return capacidad;
 	}
 	public void setCapacidad(Integer capacidad) {
+		checkCapacidad(capacidad);
 		this.capacidad = capacidad;
 	}
 	public String getPlanta(){
@@ -30,6 +31,7 @@ public class Espacio implements Comparable<Espacio> {
 	}
 	public Espacio(TipoEspacio tipoEspacio, String nombre, Integer capacidad) {
 		super();
+		checkCapacidad(capacidad);
 		this.tipoEspacio = tipoEspacio;
 		this.nombre = nombre;
 		this.capacidad = capacidad;
@@ -61,6 +63,11 @@ public class Espacio implements Comparable<Espacio> {
 			res = getNombre().compareTo(o.getNombre());
 		}
 		return res;
+	}
+	public void checkCapacidad(Integer capacidad) {
+		if (capacidad < 0) {
+			throw new IllegalArgumentException("La capacidad del espacio no puede ser menor a cero");
+		}
 	}
 	
 	

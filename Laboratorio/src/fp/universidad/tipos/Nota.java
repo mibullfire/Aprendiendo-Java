@@ -1,18 +1,29 @@
 package fp.universidad.tipos;
 
+import java.util.Objects;
+
 public record Nota(Asignatura asignatura, Integer curso, Double nota, Convocatoria convocatoria, Boolean honor) implements Comparable<Nota> {
 	
+	public Nota(Asignatura asignatura, Integer curso, Double nota, Convocatoria convocatoria) {
+        this(asignatura, curso, nota, convocatoria, false);
+    }
+	
 	public Nota {
+		checkNota(nota);
+		checkHonor(nota, honor);
+	}
+	
+	public void checkNota(Double nota) {
 		if (nota < 0 || nota > 10) {
 			throw new IllegalArgumentException("La nota debe estar entre 0 y 10.");
 		}
+	}
+	
+	public void checkHonor(Double nota, Boolean honor) {
 		if (nota < 9 && honor == true){
 			throw new IllegalArgumentException("No puedes dar una matrícula a alguien con menos de 9 de nota.");
 		}
 	}
-	public Nota(Asignatura asignatura, Integer curso, Double nota, Convocatoria convocatoria) {
-        this(asignatura, curso, nota, convocatoria, false);
-    }
 	
 	public Calificacion calificacion() {
 		if (nota >= 9 && honor == false) {
@@ -50,5 +61,21 @@ public record Nota(Asignatura asignatura, Integer curso, Double nota, Convocator
 		}	
 		return res;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(asignatura, convocatoria, curso);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean res = false;
+		if (obj instanceof Nota) {
+			Nota n = (Nota) obj;
+			res = Objects.equals(asignatura, n.asignatura) && Objects.equals(convocatoria, n.convocatoria) && Objects.equals(curso, n.curso);
+		}
+		return res;
+	}
+	
 	
 }

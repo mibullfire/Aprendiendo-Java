@@ -106,11 +106,11 @@ public class Persona implements Comparable<Persona> {
 			throw new NullPointerException();
 		}
 		res = getApellidos().compareTo(o.getApellidos());
-		;
 		if (res == 0) {
 			res = getNombre().compareTo(o.getNombre());
-		} else if (res == 0) {
-			res = getDni().compareTo(o.getDni());
+			if (res == 0) {
+				res = getDni().compareTo(o.getDni());
+			}
 		}
 		return res;
 	}
