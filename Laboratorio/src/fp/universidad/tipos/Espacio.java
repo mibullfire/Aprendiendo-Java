@@ -26,8 +26,8 @@ public class Espacio implements Comparable<Espacio> {
 		checkCapacidad(capacidad);
 		this.capacidad = capacidad;
 	}
-	public String getPlanta(){
-		return String.valueOf(nombre.charAt(1));
+	public Integer getPlanta(){
+		return Integer.valueOf(nombre.charAt(1));
 	}
 	public Espacio(TipoEspacio tipoEspacio, String nombre, Integer capacidad) {
 		super();
