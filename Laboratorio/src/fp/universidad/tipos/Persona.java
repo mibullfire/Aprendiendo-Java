@@ -26,6 +26,10 @@ public class Persona implements Comparable<Persona> {
 	public String getMail() {
 		return mail;
 	}
+	public Integer getEdad() {
+		Period periodo = nacimiento.until(LocalDate.now());
+		return periodo.getYears();
+	}
 	
 	public void setDni(String dni) {
 		checkDni(dni);
@@ -44,21 +48,25 @@ public class Persona implements Comparable<Persona> {
 		checkMail(mail);
 		this.mail = mail;
 	}
-	
-	public Integer getEdad() {
-		Period periodo = nacimiento.until(LocalDate.now());
-		return periodo.getYears();
-	}
-	
+
 	public String toString() {
 		return dni + " - " + apellidos + ", " + nombre + " - " + nacimiento.getDayOfMonth()+"/"+nacimiento.getMonthValue()+"/"+nacimiento.getYear();
 	}
-	
 	// Constructor sin mail:
 	public Persona(String dni, String nombre, String apellidos, LocalDate nacimiento) {
 		this(dni, nombre, apellidos, nacimiento, "");
 	}
-	
+	public Persona(String dni, String nombre, String apellidos, LocalDate nacimiento, String mail) {
+		super();
+		checkDni(dni);
+		checkMail(mail);
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.nacimiento = nacimiento;
+		this.mail = mail;
+	}
+	// Restricciones
 	private void checkDni(String dni) {
 		check("DNI", Character.isDigit(dni.charAt(0))
 				&& Character.isDigit(dni.charAt(1))
@@ -70,26 +78,13 @@ public class Persona implements Comparable<Persona> {
 				&& Character.isDigit(dni.charAt(7))
 				&& Character.isLetter(dni.charAt(8)));
 	}
-	
 	private void checkMail(String mail) {
 		check("El email debe ser una cadena vacía o contener un carácter @", mail.equals("") || mail.contains("@"));
 	}
-	
-	public Persona(String dni, String nombre, String apellidos, LocalDate nacimiento, String mail) {
-		super();
-		checkDni(dni);
-		checkMail(mail);
-		this.dni = dni;
-		this.nombre = nombre;
-		this.apellidos = apellidos;
-		this.nacimiento = nacimiento;
-		this.mail = mail;
-	}
-	@Override
+
 	public int hashCode() {
 		return Objects.hash(apellidos, nombre, dni);
 	}
-	
 	public boolean equals(Object o) {
 		boolean res = false;
 		if (o instanceof Persona) {
@@ -98,9 +93,8 @@ public class Persona implements Comparable<Persona> {
 		}
 		return res;
 	}
-	@Override
+	
 	public int compareTo(Persona o) {
-		// TODO Auto-generated method stub
 		int res;
 		if (o == null) {
 			throw new NullPointerException();
@@ -114,12 +108,4 @@ public class Persona implements Comparable<Persona> {
 		}
 		return res;
 	}
-	
-	
-	
-	
-	
-	
-	
-
 }

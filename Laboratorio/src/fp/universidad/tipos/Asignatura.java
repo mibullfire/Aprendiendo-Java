@@ -18,7 +18,7 @@ public record Asignatura(String nombre, String codigo, Double creditos, TipoAsig
 			throw new IllegalArgumentException("Los créditos deben ser mayores a cero");
 		}
 	}
-	private void checkCodigo(String Codigo) {
+	private void checkCodigo(String codigo) {
 		if(!(codigo.length()==7 
 				&& Character.isDigit(codigo.charAt(0))
 				&& Character.isDigit(codigo.charAt(1))

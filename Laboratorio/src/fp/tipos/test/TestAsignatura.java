@@ -16,14 +16,14 @@ import fp.universidad.tipos.Tutoria;
 
 public class TestAsignatura {
 	public static void main (String[] args) {
-		AsignaturaFake a = new AsignaturaFake("Fundamentos de Programación", "000230", 12.0, TipoAsignatura.ANUAL, 1);
+		AsignaturaFake a = new AsignaturaFake("Fundamentos de Programación", "0000230", 12.0, TipoAsignatura.ANUAL, 1);
 		System.out.println(a.getCreditos());
 		
-		Asignatura a2 = new Asignatura("Fundamentos de Programación", "000230", 12.0, TipoAsignatura.ANUAL, 1);
+		Asignatura a2 = new Asignatura("Fundamentos de Programación", "0000230", 12.0, TipoAsignatura.ANUAL, 1);
 		System.out.println(a2);
 		System.out.println(a2.creditos());
 		
-		Asignatura a3 = new Asignatura("Fundamentos de Programación", "000230", 12.0, TipoAsignatura.ANUAL, 1);
+		Asignatura a3 = new Asignatura("Fundamentos de Programación", "0000230", 12.0, TipoAsignatura.ANUAL, 1);
 		System.out.println(a3);
 		System.out.println(a3.creditos());
 		
@@ -43,6 +43,7 @@ public class TestAsignatura {
 		Tutoria t = new Tutoria(DayOfWeek.MONDAY, LocalTime.of(17, 30), LocalTime.of(19, 0));
 		System.out.println(t);
 		System.out.println(t.duracion());
+		
 	}
 	
 

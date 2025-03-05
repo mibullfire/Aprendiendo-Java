@@ -9,7 +9,11 @@ public record Tutoria(DayOfWeek diaSemana, LocalTime comienzo, LocalTime fin) im
 	
 	public Tutoria{
 		checkDia(diaSemana);
-		checkDuracion(duracion());
+		checkDuracion(comienzo, fin);
+	}
+	
+	public Tutoria(DayOfWeek dia, Integer duracion, LocalTime comienzo) {
+		this(dia, comienzo, comienzo.plusMinutes(duracion));
 	}
 	
 	public String toString() {
@@ -22,9 +26,9 @@ public record Tutoria(DayOfWeek diaSemana, LocalTime comienzo, LocalTime fin) im
 		}
 	}
 	
-	public void checkDuracion(Long duracion) {
-		if (duracion < 15l) {
-			throw new IllegalArgumentException("Las tutorías deben de ser almenos de 15 minutos.");
+	private void checkDuracion(LocalTime comienzo, LocalTime fin) {
+		if (Duration.between(comienzo, fin).toMinutes() < 15) {
+			throw new IllegalArgumentException("Las tutorías deben ser al menos de 15 minutos.");
 		}
 	}
 	
@@ -41,10 +45,10 @@ public record Tutoria(DayOfWeek diaSemana, LocalTime comienzo, LocalTime fin) im
         };
 	}
 	
-	public Long duracion() {
+	public Integer duracion() {
 		Duration duracion = Duration.between(comienzo, fin);
-		Long duracionx = duracion.toMinutes();
-		return duracionx;
+		Long l = duracion.toMinutes();
+		return l.intValue();
 		/*
 		int minutosComienzo = comienzo.getHour() * 60 + comienzo.getMinute();
 		int minutosFin = fin.getHour() * 60 + fin.getMinute();
