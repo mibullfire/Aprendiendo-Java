@@ -12,6 +12,19 @@ public class Despacho extends Espacio {
 		checkCapacidad(profesores, capacidad);
 	}
 	
+	public Despacho(String nombre, Integer capacidad, Profesor profesor) {
+		super(TipoEspacio.OTRO, nombre, capacidad);
+		this.profesores = new HashSet<Profesor>();
+		this.profesores.add(profesor);
+		checkCapacidad(profesores, capacidad);
+	}
+	
+	public Despacho(String nombre, Integer capacidad) {
+		super(TipoEspacio.OTRO, nombre, capacidad);
+		this.profesores = new HashSet<Profesor>();
+		checkCapacidad(profesores, capacidad);
+	}
+	
 	public void setTipo() {
 		throw new UnsupportedOperationException();	
 	}
@@ -30,21 +43,7 @@ public class Despacho extends Espacio {
 		this.profesores = profesores;
 	}
 	
-	/*TODO
-	 * El tipo Despacho debe dar flexibilidad a la hora de crear los objetos, por lo que deberá proporcionar tres constructores distintos. 
-	 * El primer constructor creará un despacho a partir de los mismos parámetros que el constructor del tipo Espacio salvo el tipo, que se inicializará con el valor 'OTRO',
-	 *  junto con un conjunto de profesores. El segundo constructor creará un despacho a partir de los mismos parámetros que el constructor del tipo Espacio salvo el tipo, 
-	 *  que se inicializará con el valor 'OTRO', junto con un solo profesor. Finalmente, el tercer constructor creará un despacho a partir de los mismos parámetros que el
-	 *   constructor del tipo Espacio salvo el tipo, que se inicializará con el valor 'OTRO'. En este caso el despacho no tendrá ningún profesor asignado.
-
-Dos despachos son iguales si tienen el mismo nombre y están en la misma planta. Además, su ordenación natural coincide con la de cualquier otro espacio. Finalmente, 
-un despacho tiene la misma representación que los espacios, seguida de los profesores que ocupan el despacho (utilice la representación como cadena de la propiedad profesores). 
-Por ejemplo: "M2.25 (planta 2) [28200400P – Martín Oviedo, María – 21/05/1985 (TITULAR), 33123210J – Vegarredonda Ordiales, Jorge – 25/11/1990 (CONTRATADO_DOCTOR)]".
-	 */
-	
-	
-	
-	
-	
-
+	public String toString() {
+		return super.toString() + profesores;
+	}
 }
