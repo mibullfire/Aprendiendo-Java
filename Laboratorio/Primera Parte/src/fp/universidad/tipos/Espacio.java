@@ -1,11 +1,14 @@
 package fp.universidad.tipos;
 
 import java.util.Objects;
+import fp.utiles.Checkers;
 
 public class Espacio implements Comparable<Espacio> {
+	private static final String DELIMITADOR = ",";
 	private TipoEspacio tipoEspacio;
 	private String nombre;
 	private Integer capacidad;
+	private Integer planta;
 	
 	public TipoEspacio getTipoEspacio() {
 		return tipoEspacio;
@@ -27,8 +30,9 @@ public class Espacio implements Comparable<Espacio> {
 		this.capacidad = capacidad;
 	}
 	public Integer getPlanta(){
-		return Integer.valueOf(nombre.charAt(1));
+		return planta;
 	}
+	/* Cambios para implementar la Factoria
 	public Espacio(TipoEspacio tipoEspacio, String nombre, Integer capacidad) {
 		super();
 		checkCapacidad(capacidad);
@@ -36,6 +40,21 @@ public class Espacio implements Comparable<Espacio> {
 		this.nombre = nombre;
 		this.capacidad = capacidad;
 	}
+	*/
+	public Espacio(String s) {
+		String [] splits = s.split(DELIMITADOR);
+		Checkers.check("Numero splits erróneo", splits.length==4);
+		String nombre = splits[0].trim();
+		Integer planta = Integer.valueOf(splits[1].trim());
+		Integer capacidad = Integer.valueOf(splits[2].trim());
+		TipoEspacio tipo = TipoEspacio.valueOf(splits[3].toUpperCase().trim());
+		checkCapacidad(capacidad);
+		this.nombre = nombre;
+		this.tipoEspacio = tipo;
+		this.capacidad = capacidad;
+		this.planta = planta;
+	}
+	
 	@Override
 	public String toString() {
 		return nombre + " (planta " + getPlanta() + ")";
@@ -69,15 +88,4 @@ public class Espacio implements Comparable<Espacio> {
 			throw new IllegalArgumentException("La capacidad del espacio no puede ser menor a cero");
 		}
 	}
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-
 }

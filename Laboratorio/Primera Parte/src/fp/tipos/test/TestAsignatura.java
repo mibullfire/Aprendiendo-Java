@@ -33,9 +33,9 @@ public class TestAsignatura {
 		Persona p = new Persona("32910888G", "Miguel", "Toro Llamas", LocalDate.of(2004, 10, 23), "prueba@");
 		System.out.println(p);
 		
-		Espacio e = new Espacio(TipoEspacio.LABORATORIO, "A3.10", 100);
-		System.out.println(e);
-		System.out.println(e.getPlanta());
+		// Espacio e = new Espacio(TipoEspacio.LABORATORIO, "A3.10", 100);
+		// System.out.println(e);
+		// System.out.println(e.getPlanta());
 		
 		Nota n = new Nota(a2, 2014, 9.0, Convocatoria.PRIMERA, true);
 		System.out.println(n);
