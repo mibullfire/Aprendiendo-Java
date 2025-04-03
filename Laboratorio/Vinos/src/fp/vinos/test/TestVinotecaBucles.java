@@ -84,7 +84,7 @@ public class TestVinotecaBucles {
 		
 		System.out.println("\nCasos de prueba para calcularTotalPuntosVinosDeRegion");
 		System.out.println("==============================================");
-		testCalcularTotalPuntosVinosDeRegion(vinos1, "California");
+		testCalcularTotalPuntosVinosDeRegion(vinos1, "Spain");
 		testCalcularTotalPuntosVinosDeRegion(vinos2, "California");
 
 		System.out.println("\nCasos de prueba para calcularMediaPuntosVinosDeUva");

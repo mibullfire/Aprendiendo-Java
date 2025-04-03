@@ -5,8 +5,10 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class VinotecaBucles implements Vinoteca {
 	private Set<Vino> vinos;
@@ -76,6 +78,8 @@ public class VinotecaBucles implements Vinoteca {
 		return vinos;
 	}
 
+	//TRATAMIENTOS SECUENCIALES SIMPLES
+	
 	@Override
 	public Integer calcularNumeroVinosPais(String pais) {
 		List<Vino> vinosPais = new ArrayList<Vino>();
@@ -86,7 +90,56 @@ public class VinotecaBucles implements Vinoteca {
 		}
 		return vinosPais.size();
 	}
+	
+	@Override
+	public List<Vino> obtenerVinosRangoPuntos(Integer inf, Integer sup) {
+		List<Vino> vinosRango = new ArrayList<Vino>();
+		if (inf > sup) {
+			throw new IllegalArgumentException();
+		}
+		for (Vino v: vinos) {
+			if (v.puntuacion() >= inf && v.puntuacion() <= sup) {
+				vinosRango.add(v);
+			}
+		}
+		return vinosRango;
+	}
+	
+	@Override
+	public Integer calcularNumeroVinosDePaisConPuntuacionSuperior(String pais, Integer umbralPuntuacion) {
+		List<Vino> vinitos = new ArrayList<Vino>();
+		for (Vino v: vinos) {
+			if (v.pais().equals(pais) && v.puntuacion() >= umbralPuntuacion) {
+				vinitos.add(v);
+			}
+		}
+		return vinitos.size();
+	}
+	
+	@Override
+	public List<Vino> obtenerVinosBaratos(Double precio) {
+		List<Vino> vinitos = new ArrayList<Vino>();
+		for (Vino v: vinos) {
+			if (v.precio() < precio) {
+				vinitos.add(v);
+			}
+		}
+		return vinitos;
+	}
+	
+	@Override
+	public Boolean existeVinoDeUvaEnRegion(String uva, String region) {
+		List<Vino> vinitos = new ArrayList<Vino>();
+		for (Vino v: vinos) {
+			if (v.Uva().equals(uva) && v.region().equals(region)) {
+				vinitos.add(v);
+			}
+		}
+		return (vinitos.size()>0);
+	}
 
+	// TRATAMIENTOS SECUENCIALES DE ACUMULACION
+	
 	@Override
 	public Set<String> calcularUvasDeRegion(String region) {
 		List<Vino> filtrado = new ArrayList<Vino>();
@@ -105,8 +158,98 @@ public class VinotecaBucles implements Vinoteca {
 	}
 
 	@Override
+	public Integer calcularTotalPuntosVinosDeRegion(String region) {
+		List<Integer> puntos = new ArrayList<Integer>();
+		for (Vino v: vinos) {
+			if(v.pais().equals(region)) {
+				puntos.add(v.puntuacion());
+			}
+		}
+		return puntos.stream().collect(Collectors.summingInt(Integer::intValue));
+	}
+	
+	@Override
+	public Double calcularMediaPuntosVinosDeUva(String uva) {
+		List<Integer> puntos = new ArrayList<Integer>();
+		for (Vino v: vinos) {
+			if (v.Uva().equals(uva)) {
+				puntos.add(v.puntuacion());
+			}
+		}
+		return vinos.isEmpty() ? 0. : puntos.stream().mapToInt(Integer::intValue).average().orElse(0.);
+	}
+	
+	// TRATAMIENTOS SECUENCIALES CON CREITERIO DE ORDENACION 
+	
+	@Override
 	public Vino obtenerVinoMejorPuntuado() {
 		Comparator<Vino> cmp = Comparator.comparing(Vino::puntuacion);
 		return max(vinos, cmp);
 	}
+
+	@Override
+	public Vino obtenerVinoMejorPuntuadoDePais(String pais) {
+		Comparator<Vino> cmp = Comparator.comparing(Vino::puntuacion);
+		List<Vino> vinitos = new ArrayList<Vino>();
+		for (Vino v: vinos) {
+			if (v.pais().equals(pais)) {
+				vinitos.add(v);
+			}
+		}
+		return max(vinitos, cmp);
+	}
+
+	@Override
+	public List<Vino> obtenerNVinosRegionOrdenadosPrecio(String region, Integer n) {
+		Comparator<Vino> cpm = Comparator.comparing(Vino::precio);
+		List<Vino> vinitos = new ArrayList<Vino>();
+		for (Vino v: vinos) {
+			if (v.region().equals(region)) {
+				vinitos.add(v);
+			}
+		}
+		vinitos.sort(cpm);
+		return vinitos.stream().limit(n).collect(Collectors.toList());
+	}
+
+	@Override
+	public Map<String, List<Vino>> agruparVinosPorPais() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Set<String>> agruparUvasPorPais() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Integer> calcularCalidadPrecioPorRegionMayorDe(Double umbral) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Vino> calcularVinoMasCaroPorPais() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, List<Vino>> calcularNMejoresVinosPorPais(Integer n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String calcularRegionConMejoresVinos(Double umbral) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	// TRATAMIENTOS SECUENCIALES CON MAP
+	
+	
+	
 }
