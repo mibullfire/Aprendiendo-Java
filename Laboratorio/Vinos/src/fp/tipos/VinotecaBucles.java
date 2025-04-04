@@ -3,6 +3,7 @@ import static java.util.Collections.max;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -232,8 +233,17 @@ public class VinotecaBucles implements Vinoteca {
 
 	@Override
 	public Map<String, Vino> calcularVinoMasCaroPorPais() {
-		// TODO Auto-generated method stub
-		return null;
+		Comparator<Vino> cmp = Comparator.comparing(Vino::precio);
+		Map<String, List<Vino>> mapeado = new HashMap<>();
+		for (Vino v: vinos) {
+			mapeado.putIfAbsent(v.pais(), new ArrayList<>());
+			mapeado.get(v.pais()).add(v);
+		}
+		Map<String, Vino> resultado = new HashMap<>();
+		for (Map.Entry<String, List<Vino>> entry : mapeado.entrySet()) {
+			resultado.put(entry.getKey(), entry.getValue().stream().max(cmp).orElse(null));
+		}
+		return resultado;
 	}
 
 	@Override
