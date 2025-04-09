@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class VinotecaBucles implements Vinoteca {
-	private Set<Vino> vinos;
+	protected Set<Vino> vinos;
 	
 	public VinotecaBucles() {
 		super();
@@ -66,13 +66,13 @@ public class VinotecaBucles implements Vinoteca {
 		if(o instanceof Vinoteca) {
 			Vinoteca vinoteca = (Vinoteca) o;
 			//TODO No está resuelto. Está mal diseñado, propiedad no observable
-			res = Objects.equals(this.obtenerNumeroVino(), vinoteca.obtenerNumeroVino());
+			res = Objects.equals(this.obtenerNumeroVino(), vinoteca.obtenerNumeroVino()) && Objects.equals(true, vinoteca.contieneVinos(vinos));
 		}
 		return res;
 	}
 	
 	public int hashCode() {
-		return this.obtenerNumeroVino().hashCode();
+		return Objects.hash(obtenerNumeroVino(), vinos);
 	}
 
 	public Object getVinos() {
@@ -96,7 +96,7 @@ public class VinotecaBucles implements Vinoteca {
 	public List<Vino> obtenerVinosRangoPuntos(Integer inf, Integer sup) {
 		List<Vino> vinosRango = new ArrayList<Vino>();
 		if (inf > sup) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("La cota inferior no puede ser mayor a la superior");
 		}
 		for (Vino v: vinos) {
 			if (v.puntuacion() >= inf && v.puntuacion() <= sup) {
@@ -171,14 +171,16 @@ public class VinotecaBucles implements Vinoteca {
 	
 	@Override
 	public Double calcularMediaPuntosVinosDeUva(String uva) {
-		List<Integer> puntos = new ArrayList<Integer>();
-		for (Vino v: vinos) {
-			if (v.Uva().equals(uva)) {
-				puntos.add(v.puntuacion());
-			}
-		}
-		return vinos.isEmpty() ? 0. : puntos.stream().mapToInt(Integer::intValue).average().orElse(0.);
-	}
+	    Double result = 0.0;
+	    Double res = 0.0;
+	    for(Vino v: vinos) {
+	      if(v.Uva().equals(uva)) {
+	        result += v.puntuacion();
+	        res += 1.0;
+	      }
+	    }
+	    return result/res;
+	  }
 	
 	// TRATAMIENTOS SECUENCIALES CON CREITERIO DE ORDENACION 
 	
@@ -210,7 +212,7 @@ public class VinotecaBucles implements Vinoteca {
 			}
 		}
 		vinitos.sort(cpm);
-		return vinitos.stream().limit(n).collect(Collectors.toList());
+		return vinitos.subList(0, n);
 	}
 
 	@Override
@@ -224,11 +226,36 @@ public class VinotecaBucles implements Vinoteca {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	private Integer cuentaCalidadesPrecio(List<Vino> lista, Double umbral) {
+		List<Vino> res = new ArrayList<Vino>();
+		for (Vino v: lista) {
+			if(v.getCalidadPrecio()>=umbral) {
+				res.add(v);
+			}
+		}
+		return res.size();
+	}
 
 	@Override
 	public Map<String, Integer> calcularCalidadPrecioPorRegionMayorDe(Double umbral) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, List<Vino>> agregacion = new HashMap<String, List<Vino>>();
+		for (Vino v:vinos) {
+			String key = v.region();
+			if (agregacion.containsKey(key)) {
+				agregacion.get(key).add(v);
+			} else {
+				List<Vino> lista = new ArrayList<Vino>();
+				lista.add(v);
+				agregacion.put(key, lista);
+			}
+		}
+		
+		Map<String, Integer> res = new HashMap<String, Integer>();
+		for (String key: agregacion.keySet()) {
+			res.put(key, cuentaCalidadesPrecio(agregacion.get(key), umbral));
+		}
+		return res;
 	}
 
 	@Override
@@ -254,8 +281,8 @@ public class VinotecaBucles implements Vinoteca {
 
 	@Override
 	public String calcularRegionConMejoresVinos(Double umbral) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Integer> numeroVinosBuenosPorRegion = calcularCalidadPrecioPorRegionMayorDe(umbral);
+		return max(numeroVinosBuenosPorRegion.keySet(), Comparator.comparing(region->numeroVinosBuenosPorRegion.get(region)).thenComparing(Comparator.naturalOrder()));
 	}
 	
 	// TRATAMIENTOS SECUENCIALES CON MAP
