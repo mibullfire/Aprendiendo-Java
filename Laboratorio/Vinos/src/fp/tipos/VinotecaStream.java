@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import fp.utiles.Checkers;
@@ -78,38 +80,54 @@ public class VinotecaStream extends VinotecaBucles implements Vinoteca {
 
 	@Override
 	public Map<String, List<Vino>> agruparVinosPorPais() {
-		// TODO Auto-generated method stub
-		return null;
+		return vinos.stream().collect(Collectors.groupingBy(Vino::pais));	
 	}
 
 	@Override
 	public Map<String, Set<String>> agruparUvasPorPais() {
-		// TODO Auto-generated method stub
-		return null;
+		return vinos.stream().collect(Collectors.groupingBy(Vino::pais, Collectors.collectingAndThen(Collectors.toList(), lista->transformaAUVas(lista))));
 	}
+	
+	private Set<String> transformaAUVas(List<Vino> lista){
+		return lista.stream().map(Vino::Uva).collect(Collectors.toSet());
+	}
+	/*
+	 * También se puede hacer así:
+	 * public Map<String, Set<String>> agruparUvasPorPais() {
+	 *		return vinos.stream().collect(Collectors.groupingBy(Vino::pais, Collectors.mapping(Vino::Uva, Collectors.toSet())));
+	 * }
+	 */
 
 	@Override
 	public Map<String, Integer> calcularCalidadPrecioPorRegionMayorDe(Double umbral) {
-		// TODO Auto-generated method stub
-		return null;
+		return vinos.stream().collect(Collectors.groupingBy(Vino::region, Collectors.collectingAndThen(Collectors.toList(), lista->cuenta(lista, umbral))));
+	}
+	private Integer cuenta(List<Vino> lista, Double umbral) {
+		Long res = lista.stream().filter(vino->vino.getCalidadPrecio()>umbral).count();
+		return res.intValue();
 	}
 
 	@Override
 	public Map<String, Vino> calcularVinoMasCaroPorPais() {
-		// TODO Auto-generated method stub
-		return null;
+		return vinos.stream().collect(Collectors.groupingBy(Vino::pais, Collectors.collectingAndThen(Collectors.toList(), lista->masCaro(lista))));
+	}
+	private Vino masCaro(List<Vino> lista) {
+		Comparator<Vino> cmp = Comparator.comparing(Vino::precio);
+		return lista.stream().max(cmp).orElse(null);
 	}
 
 	@Override
 	public Map<String, List<Vino>> calcularNMejoresVinosPorPais(Integer n) {
-		// TODO Auto-generated method stub
-		return null;
+		Comparator<Vino> cmp = Comparator.comparing(Vino::puntuacion).reversed();
+		return vinos.stream().collect(Collectors.groupingBy(Vino::pais, ()->new TreeMap<>(), 
+				Collectors.collectingAndThen(Collectors.toList(), lista->lista.stream().sorted(cmp).limit(n).toList())));
 	}
 
-	@Override
+	// Ejercicio de Examen
 	public String calcularRegionConMejoresVinos(Double umbral) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Integer> numVinosPorRegion = calcularCalidadPrecioPorRegionMayorDe(umbral);
+		Comparator<String> cmp = Comparator.comparing(region->numVinosPorRegion.get(region));
+		return numVinosPorRegion.keySet().stream().max(cmp).orElse(null);
 	}
 
 

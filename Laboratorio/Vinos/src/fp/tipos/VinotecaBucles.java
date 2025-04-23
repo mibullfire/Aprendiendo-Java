@@ -2,6 +2,7 @@ package fp.tipos;
 import static java.util.Collections.max;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class VinotecaBucles implements Vinoteca {
@@ -217,14 +220,35 @@ public class VinotecaBucles implements Vinoteca {
 
 	@Override
 	public Map<String, List<Vino>> agruparVinosPorPais() {
-		// TODO Auto-generated method stub
-		return null;
+	    Map<String, List<Vino>> result = new HashMap<String, List<Vino>>();
+	    for (Vino v : vinos) {
+	        String clave = v.pais();
+	        if (!result.containsKey(clave)) {
+	            List<Vino> valor = new ArrayList<Vino>();
+	            valor.add(v);
+	            result.put(clave, valor);
+	        } else {
+	            result.get(clave).add(v);
+	        }
+	    }
+	    return result;
 	}
 
 	@Override
 	public Map<String, Set<String>> agruparUvasPorPais() {
-		// TODO Auto-generated method stub
+		Map<String, Set<String>> result = new HashMap<String, Set<String>>();
+		Map<String, List<Vino>> vinosPorPais = agruparVinosPorPais();
+		for (String clave:vinosPorPais.keySet()) {
+			result.put(clave, transformaVinosAUvas(vinosPorPais.get(clave)));
+		}
 		return null;
+	}
+	private Set<String> transformaVinosAUvas(List<Vino> lista){
+		Set<String> res = new HashSet<String>();
+		for (Vino v: lista) {
+			res.add(v.Uva());
+		}
+		return res;
 	}
 	
 	private Integer cuentaCalidadesPrecio(List<Vino> lista, Double umbral) {
@@ -258,31 +282,33 @@ public class VinotecaBucles implements Vinoteca {
 		return res;
 	}
 
-	@Override
-	public Map<String, Vino> calcularVinoMasCaroPorPais() {
+	public Map<String, Vino> calcularVinoMasCaroPorPais(){
+		Map<String, Vino> res = new HashMap<String, Vino>();
+		Map<String, List<Vino>> vinosPorPais = agruparVinosPorPais(); // Nos apoyamos de la función para obtener un map inicial.
 		Comparator<Vino> cmp = Comparator.comparing(Vino::precio);
-		Map<String, List<Vino>> mapeado = new HashMap<>();
-		for (Vino v: vinos) {
-			mapeado.putIfAbsent(v.pais(), new ArrayList<>());
-			mapeado.get(v.pais()).add(v);
+		for(String pais: vinosPorPais.keySet()) {
+			res.put(pais, Collections.max(vinosPorPais.get(pais), cmp));
 		}
-		Map<String, Vino> resultado = new HashMap<>();
-		for (Map.Entry<String, List<Vino>> entry : mapeado.entrySet()) {
-			resultado.put(entry.getKey(), entry.getValue().stream().max(cmp).orElse(null));
-		}
-		return resultado;
+		return res;
 	}
-
+	
 	@Override
 	public Map<String, List<Vino>> calcularNMejoresVinosPorPais(Integer n) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, List<Vino>> vinosPorPais = agruparVinosPorPais();
+		SortedMap<String, List<Vino>> res = new TreeMap<String, List<Vino>>();
+		Comparator<Vino> cmp = Comparator.comparing(Vino::puntuacion).reversed();
+		for (String pais: vinosPorPais.keySet()) {
+			List<Vino> vinosDelPais = vinosPorPais.get(pais);
+			Collections.sort(vinosDelPais, cmp);
+			res.put(pais, vinosDelPais.subList(0, n));
+		}
+		return res;
 	}
 
 	@Override
 	public String calcularRegionConMejoresVinos(Double umbral) {
 		Map<String, Integer> numeroVinosBuenosPorRegion = calcularCalidadPrecioPorRegionMayorDe(umbral);
-		return max(numeroVinosBuenosPorRegion.keySet(), Comparator.comparing(region->numeroVinosBuenosPorRegion.get(region)).thenComparing(Comparator.naturalOrder()));
+		return max(numeroVinosBuenosPorRegion.keySet(), Comparator.comparing(region->numeroVinosBuenosPorRegion.get(region))); // .thenComparing(Comparator.naturalOrder()));
 	}
 	
 	// TRATAMIENTOS SECUENCIALES CON MAP
